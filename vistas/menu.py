@@ -1,3 +1,67 @@
+# Funciones para altas y bajas de estudiantes, materias y calificaciones
+from consultas.estudiantes import insertar_estudiante
+
+# ----------------------------------------------------------------
+
+# ALTA PARA ESTUDIANTES
+def alta_estudiante():
+
+    print("\n=== ALTA DE ESTUDIANTE ===")
+
+    # Número de registro
+    while True:
+
+        nro = input("Número de registro: ")
+
+        if nro.isdigit() and int(nro) > 0:
+            nro = int(nro)
+            break
+
+        print("Error: el número de registro debe ser un número mayor que 0.")
+
+    # Nombre y apellido
+    while True:
+
+        nombre_apellido = input("Nombre y apellido: ").strip()
+
+        if nombre_apellido:
+            break
+
+        print("Error: debe ingresar el nombre y apellido.")
+
+    # DNI
+    while True:
+
+        dni = input("DNI: ")
+
+        if dni.isdigit() and int(dni) > 0:
+            dni = int(dni)
+            break
+
+        print("Error: el DNI debe ser un número mayor que 0.")
+
+    print("\nDatos ingresados correctamente:")
+    print("Número de registro:", nro)
+    print("Nombre y apellido:", nombre_apellido)
+    print("DNI:", dni)
+
+   # insertar_estudiante(nro, nombre_apellido, dni)
+   # print("\nEstudiante registrado correctamente.")
+
+    resultado, mensaje = insertar_estudiante(nro, nombre_apellido, dni)
+
+    if resultado:
+
+        print("\nEstudiante registrado correctamente.")
+
+    else:
+
+        print("\nNo se pudo registrar el estudiante.")
+        print("Error:", mensaje)
+
+# FIN ALTA PARA ESTUDIANTES
+
+# MENU PRINCIPAL
 def menu_principal():
 
     while True:
@@ -45,7 +109,7 @@ def menu_estudiantes():
         opcion = input("Seleccione una opción: ")
 
         if opcion == "1":
-            print("\nAlta de estudiante")
+            alta_estudiante()
 
         elif opcion == "2":
             print("\nBaja de estudiante")
