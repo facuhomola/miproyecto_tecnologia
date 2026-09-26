@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# Entorno virtual
+venv/
+.venv/
+
+# SQLite
+*.db-journal
+*.db-wal
+*.db-shm
