@@ -1,5 +1,6 @@
 # Funciones para altas y bajas de estudiantes, materias y calificaciones
 from consultas.estudiantes import insertar_estudiante
+from consultas.materias import insertar_materia
 
 # ----------------------------------------------------------------
 
@@ -60,6 +61,60 @@ def alta_estudiante():
         print("Error:", mensaje)
 
 # FIN ALTA PARA ESTUDIANTES
+
+# ----------------------------------------------------------------
+
+# ALTA PARA MATERIAS
+def alta_materia():
+
+    print("\n=== ALTA DE MATERIA ===")
+
+    # Nombre de la materia
+    while True:
+
+        nombre_materia = input("Nombre de la materia: ").strip()
+
+        if nombre_materia:
+            break
+
+        print("Error: debe ingresar el nombre de la materia.")
+
+    # Curso
+    while True:
+
+        curso = input("Curso: ").strip()
+
+        if curso:
+            break
+
+        print("Error: debe ingresar el curso.")
+
+    # Docente
+    while True:
+
+        docente = input("Docente: ").strip()
+
+        if docente:
+            break
+
+        print("Error: debe ingresar el nombre del docente.")
+
+    print("\nDatos ingresados correctamente:")
+    print("Nombre de la materia:", nombre_materia)
+    print("Curso:", curso)
+    print("Docente:", docente)
+
+    resultado, mensaje = insertar_materia(nombre_materia, curso, docente)
+
+    if resultado:
+
+        print("\nMateria registrada correctamente.")
+
+    else:
+
+        print("\nNo se pudo registrar la materia.")
+        print("Error:", mensaje)
+# FIN ALTA PARA MATERIAS
 
 # MENU PRINCIPAL
 def menu_principal():
@@ -136,7 +191,7 @@ def menu_materias():
         opcion = input("Seleccione una opción: ")
 
         if opcion == "1":
-            print("\nAlta de materia")
+            alta_materia()
 
         elif opcion == "2":
             print("\nBaja de materia")
