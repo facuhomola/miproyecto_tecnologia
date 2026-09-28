@@ -29,3 +29,25 @@ def insertar_materia(nombre_materia, curso, docente):
     finally:
 
         conexion.close()
+
+# Función para listar todas las materias
+def listar_materias():
+    conexion = conectar()
+
+    try:
+        cursor = conexion.cursor()
+
+        consulta = """
+            SELECT id_materia, nombre_materia, curso, docente
+            FROM materias
+            ORDER BY curso ASC, nombre_materia ASC
+        """
+
+        cursor.execute(consulta)
+
+        materias = cursor.fetchall()
+
+        return materias
+
+    finally:
+        conexion.close()
