@@ -39,8 +39,8 @@ def insertar_calificacion(id_estudiante, id_materia, nota_primer_trimestre, nota
 
         conexion.close()
 
-# Función para verificar si ya existe una calificación para un estudiante y materia específicos
-def existe_calificacion(id_estudiante, id_materia):
+# Función para buscar una calificación por estudiante y materia
+def buscar_calificacion(id_estudiante, id_materia):
 
     conexion = conectar()
 
@@ -49,7 +49,7 @@ def existe_calificacion(id_estudiante, id_materia):
         cursor = conexion.cursor()
 
         consulta = """
-            SELECT id_calificacion
+            SELECT *
             FROM calificaciones
             WHERE id_estudiante = ? AND id_materia = ?
         """
@@ -58,8 +58,33 @@ def existe_calificacion(id_estudiante, id_materia):
 
         calificacion = cursor.fetchone()
 
-        return calificacion is not None
+        return calificacion
 
     finally:
 
+        conexion.close()
+
+# Función para eliminar una calificación por su ID
+def eliminar_calificacion(id_calificacion):
+
+    conexion = conectar()
+
+    try:
+        cursor = conexion.cursor()
+
+        consulta = """
+            DELETE FROM calificaciones
+            WHERE id_calificacion = ?
+        """
+
+        cursor.execute(consulta, (id_calificacion,))
+        conexion.commit()
+
+        return True, ""
+    
+    except Exception as error:
+        conexion.rollback()
+        return False, str(error)
+
+    finally:
         conexion.close()

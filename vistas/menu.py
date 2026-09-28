@@ -6,8 +6,10 @@ from consultas.estudiantes import buscar_estudiante_por_dni
 from consultas.estudiantes import eliminar_estudiante
 from consultas.materias import listar_materias
 from consultas.calificaciones import insertar_calificacion
-from consultas.calificaciones import existe_calificacion
+#from consultas.calificaciones import existe_calificacion
 from consultas.materias import eliminar_materia
+from consultas.calificaciones import eliminar_calificacion
+from consultas.calificaciones import buscar_calificacion
 
 # ----------------------------------------------------------------
 
@@ -360,6 +362,89 @@ def baja_materia():
         print(mensaje)
 # FIN BAJA PARA MATERIAS
 
+# ----------------------------------------------------------------
+
+# BAJA PARA CALIFICACIONES
+def baja_calificacion():
+
+    print("\n--- BAJA DE CALIFICACIÓN ---")
+
+    estudiante = buscar_estudiante()
+
+    if estudiante is None:
+        return
+
+    id_estudiante = estudiante[0] # Para obtener el id_estudiante del estudiante encontrado
+
+    materias = listar_materias()
+
+    if not materias:
+        print("\nNo hay materias cargadas.")
+        return
+
+    print("\n--- MATERIAS ---")
+
+    for i, materia in enumerate(materias, start=1):
+        print(f"{i}. {materia[1]} - Curso: {materia[2]} - Docente: {materia[3]}")
+
+    opcion = input("\nSeleccione una materia: ").strip()
+
+    if not opcion.isdigit():
+        print("Debe ingresar un número.")
+        return
+
+    opcion = int(opcion)
+
+    if opcion < 1 or opcion > len(materias):
+        print("La opción seleccionada no existe.")
+        return
+
+    materia_seleccionada = materias[opcion - 1]
+
+    id_materia = materia_seleccionada[0] # Para obtener el id_materia de la materia seleccionada
+
+    print(f"\nMateria seleccionada: {materia_seleccionada[1]}")
+
+    calificacion = buscar_calificacion(id_estudiante, id_materia)
+
+    if calificacion is None:
+    
+        print("\nNo existe una calificación para este estudiante y esta materia.")
+        return
+
+    id_calificacion = calificacion[0]  # Para obtener el id_calificacion de la calificación encontrada
+
+    print("\n--- CONFIRMAR BAJA ---")
+    print(f"\nEstudiante: {estudiante[2]}")
+    print(f"NRO: {estudiante[1]}")
+    print(f"DNI: {estudiante[3]}")
+    print(f"Materia: {materia_seleccionada[1]}")
+    print(f"Curso: {materia_seleccionada[2]}")
+    print(f"Docente: {materia_seleccionada[3]}")
+    print(f"Nota primer trimestre: {calificacion[3]}")
+    print(f"Nota segundo trimestre: {calificacion[4]}")
+    print(f"Nota tercer trimestre: {calificacion[5]}")
+    print(f"Nota examen diciembre: {calificacion[7]}")
+    print(f"Nota examen marzo: {calificacion[8]}")
+    print(f"Observaciones: {calificacion[10]}")
+
+    confirmacion = input(
+        "\n¿Desea eliminar la calificación?\n"
+        "Ingrese S para confirmar o N para cancelar: "
+        ).strip().upper()
+
+    if confirmacion != "S":
+        print("Operación cancelada.")
+        return
+
+    resultado, mensaje = eliminar_calificacion(id_calificacion)
+
+    if resultado:
+        print("Calificación eliminada correctamente.")
+    else:
+        print(mensaje)
+# FIN BAJA PARA CALIFICACIONES
+
 # MENU PRINCIPAL
 def menu_principal():
 
@@ -468,7 +553,7 @@ def menu_calificaciones():
             #print("\nAlta de calificación")
 
         elif opcion == "2":
-            print("\nBaja de calificación")
+            baja_calificacion()
 
         elif opcion == "0":
             break
