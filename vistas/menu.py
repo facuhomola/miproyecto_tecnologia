@@ -3,11 +3,15 @@ from consultas.estudiantes import insertar_estudiante
 from consultas.materias import insertar_materia
 from consultas.estudiantes import buscar_estudiante_por_nro
 from consultas.estudiantes import buscar_estudiante_por_dni
+from consultas.estudiantes import eliminar_estudiante
 from consultas.materias import listar_materias
 from consultas.calificaciones import insertar_calificacion
 from consultas.calificaciones import existe_calificacion
+from consultas.materias import eliminar_materia
 
 # ----------------------------------------------------------------
+
+# OPERACIONES PARA ALTA DE ESTUDIANTES, MATERIAS Y CALIFICACIONES
 
 # ALTA PARA ESTUDIANTES
 def alta_estudiante():
@@ -279,6 +283,83 @@ def alta_calificacion():
 
 # Fin de la función alta_calificacion
 
+# ----------------------------------------------------------------
+
+# OPERACIONES PARA BAJA DE ESTUDIANTES, MATERIAS Y CALIFICACIONES
+
+# BAJA PARA ESTUDIANTES
+def baja_estudiante():
+
+    print("\n--- BAJA DE ESTUDIANTE ---")
+
+    estudiante = buscar_estudiante()
+
+    if estudiante is None:
+        return
+
+    print("\n¿Desea eliminar este estudiante?")
+    confirmacion = input("Ingrese S para confirmar o N para cancelar: ").strip().upper()
+
+    if confirmacion != "S":
+        print("Operación cancelada.")
+        return
+
+    resultado, mensaje = eliminar_estudiante(estudiante[0])
+
+    if resultado:
+        print("Estudiante eliminado correctamente.")
+    else:
+        print(mensaje)
+# FIN BAJA PARA ESTUDIANTES
+
+# ----------------------------------------------------------------
+
+# BAJA PARA MATERIAS
+def baja_materia():
+
+    print("\n--- BAJA DE MATERIA ---")
+
+    materias = listar_materias()
+
+    if not materias:
+        print("\nNo hay materias cargadas.")
+        return
+
+    print("\n--- MATERIAS ---")
+
+    for i, materia in enumerate(materias, start=1):
+        print(f"{i}. {materia[1]} - Curso: {materia[2]} - Docente: {materia[3]}")
+
+    opcion = input("\nSeleccione una materia para eliminar: ").strip()
+
+    if not opcion.isdigit():
+        print("Debe ingresar un número.")
+        return
+
+    opcion = int(opcion)
+
+    if opcion < 1 or opcion > len(materias):
+        print("La opción seleccionada no existe.")
+        return
+
+    materia_seleccionada = materias[opcion - 1]
+
+    print(f"\nMateria seleccionada: {materia_seleccionada[1]}")
+
+    confirmacion = input("Ingrese S para confirmar la eliminación o N para cancelar: ").strip().upper()
+
+    if confirmacion != "S":
+        print("Operación cancelada.")
+        return
+
+    resultado, mensaje = eliminar_materia(materia_seleccionada[0])
+
+    if resultado:
+        print("Materia eliminada correctamente.")
+    else:
+        print(mensaje)
+# FIN BAJA PARA MATERIAS
+
 # MENU PRINCIPAL
 def menu_principal():
 
@@ -330,7 +411,8 @@ def menu_estudiantes():
             alta_estudiante()
 
         elif opcion == "2":
-            print("\nBaja de estudiante")
+            baja_estudiante()
+            #print("\nBaja de estudiante")
 
         elif opcion == "0":
             break
@@ -357,7 +439,8 @@ def menu_materias():
             alta_materia()
 
         elif opcion == "2":
-            print("\nBaja de materia")
+            baja_materia()
+            #print("\nBaja de materia")
 
         elif opcion == "0":
             break

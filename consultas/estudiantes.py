@@ -34,9 +34,12 @@ def insertar_estudiante(nro, nombre_apellido, dni):
 
             return False, f"El DNI {dni} ya está registrado."
 
+        #else:
+
+         #   return False, "No se pudo registrar el estudiante."
         else:
 
-            return False, "No se pudo registrar el estudiante."
+            return False, f"No se pudo registrar el estudiante: {mensaje}"
 
     finally:
 
@@ -82,6 +85,41 @@ def buscar_estudiante_por_dni(dni):
         estudiante = cursor.fetchone()
 
         return estudiante
+
+    finally:
+        conexion.close()
+
+
+def eliminar_estudiante(id_estudiante):
+    conexion = conectar()
+
+    try:
+        cursor = conexion.cursor()
+
+        consulta = """
+            DELETE FROM estudiantes
+            WHERE id_estudiante = ?
+        """
+
+        cursor.execute(consulta, (id_estudiante,))
+
+        conexion.commit()
+
+        return True, ""
+
+    except Exception as error:
+
+        conexion.rollback()
+
+        mensaje = str(error)
+
+        if "FOREIGN KEY" in mensaje:
+
+            return False, "No se puede eliminar el estudiante porque tiene calificaciones registradas."
+
+        else:
+
+            return False, "No se pudo eliminar el estudiante."
 
     finally:
         conexion.close()

@@ -51,3 +51,38 @@ def listar_materias():
 
     finally:
         conexion.close()
+
+
+def eliminar_materia(id_materia):
+    conexion = conectar()
+
+    try:
+        cursor = conexion.cursor()
+
+        consulta = """
+            DELETE FROM materias
+            WHERE id_materia = ?
+        """
+
+        cursor.execute(consulta, (id_materia,))
+
+        conexion.commit()
+
+        return True, ""
+
+    except Exception as error:
+
+        conexion.rollback()
+
+        mensaje = str(error)
+
+        if "FOREIGN KEY" in mensaje:
+
+            return False, "No se puede eliminar la materia porque tiene calificaciones registradas."
+
+        else:
+
+            return False, "No se pudo eliminar la materia."
+
+    finally:
+        conexion.close()
