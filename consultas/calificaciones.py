@@ -1,5 +1,29 @@
 from basededatos.conexion import conectar
 
+# Función para listar todas las calificaciones
+def listar_calificaciones():
+
+    conexion = conectar()
+
+    try:
+
+        cursor = conexion.cursor()
+
+        consulta = """
+            SELECT *
+            FROM calificaciones
+        """
+
+        cursor.execute(consulta)
+
+        registros = cursor.fetchall()
+
+        return registros
+
+    finally:
+
+        conexion.close()
+
 # Función para insertar una calificación en la base de datos
 def insertar_calificacion(id_estudiante, id_materia, nota_primer_trimestre, nota_segundo_trimestre, nota_tercer_trimestre, nota_examen_diciembre, nota_examen_marzo, observaciones):
 

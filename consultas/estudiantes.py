@@ -1,5 +1,29 @@
 from basededatos.conexion import conectar
 
+# Función para listar todos los estudiantes
+def listar_estudiantes():
+
+    conexion = conectar()
+
+    try:
+
+        cursor = conexion.cursor()
+
+        consulta = """
+            SELECT *
+            FROM estudiantes
+        """
+
+        cursor.execute(consulta)
+
+        registros = cursor.fetchall()
+
+        return registros
+
+    finally:
+
+        conexion.close()
+
 # Función para insertar un estudiante en la base de datos
 def insertar_estudiante(nro, nombre_apellido, dni):
 

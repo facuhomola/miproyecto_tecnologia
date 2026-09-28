@@ -10,7 +10,9 @@ from consultas.calificaciones import insertar_calificacion
 from consultas.materias import eliminar_materia
 from consultas.calificaciones import eliminar_calificacion
 from consultas.calificaciones import buscar_calificacion
-
+from consultas.estudiantes import listar_estudiantes
+#from consultas.materias import listar_materias
+from consultas.calificaciones import listar_calificaciones
 # ----------------------------------------------------------------
 
 # OPERACIONES PARA ALTA DE ESTUDIANTES, MATERIAS Y CALIFICACIONES
@@ -487,6 +489,7 @@ def menu_estudiantes():
         print("================================")
         print("1. Alta de estudiante")
         print("2. Baja de estudiante")
+        print("3. Listar estudiantes")
         print("0. Volver")
         print("================================")
 
@@ -498,6 +501,16 @@ def menu_estudiantes():
         elif opcion == "2":
             baja_estudiante()
             #print("\nBaja de estudiante")
+
+        elif opcion == "3":
+            estudiantes = listar_estudiantes()
+
+            if not estudiantes:
+                print("\nNo hay estudiantes registrados.")
+            else:
+                print("\n--- LISTA DE ESTUDIANTES ---")
+                for estudiante in estudiantes:
+                    print(f"NRO: {estudiante[1]}, Nombre y Apellido: {estudiante[2]}, DNI: {estudiante[3]}")
 
         elif opcion == "0":
             break
@@ -515,6 +528,7 @@ def menu_materias():
         print("================================")
         print("1. Alta de materia")
         print("2. Baja de materia")
+        print("3. Listar materias")
         print("0. Volver")
         print("================================")
 
@@ -526,6 +540,16 @@ def menu_materias():
         elif opcion == "2":
             baja_materia()
             #print("\nBaja de materia")
+        
+        elif opcion == "3":
+            materias = listar_materias()
+
+            if not materias:
+                print("\nNo hay materias registradas.")
+            else:
+                print("\n--- LISTA DE MATERIAS ---")
+                for materia in materias:
+                    print(f"Nombre: {materia[1]}, Curso: {materia[2]}, Docente: {materia[3]}")
 
         elif opcion == "0":
             break
@@ -543,6 +567,7 @@ def menu_calificaciones():
         print("================================")
         print("1. Alta de calificación")
         print("2. Baja de calificación")
+        print("3. Listar calificaciones")
         print("0. Volver")
         print("================================")
 
@@ -554,6 +579,16 @@ def menu_calificaciones():
 
         elif opcion == "2":
             baja_calificacion()
+        
+        elif opcion == "3":
+            calificaciones = listar_calificaciones()
+
+            if not calificaciones:
+                print("\nNo hay calificaciones registradas.")
+            else:
+                print("\n--- LISTA DE CALIFICACIONES ---")
+                for calificacion in calificaciones:
+                    print(f"ID Estudiante: {calificacion[1]}, ID Materia: {calificacion[2]}, Nota Primer Trimestre: {calificacion[3]}, Nota Segundo Trimestre: {calificacion[4]}, Nota Tercer Trimestre: {calificacion[5]}, Nota Examen Diciembre: {calificacion[7]}, Nota Examen Marzo: {calificacion[8]}, Observaciones: {calificacion[10]}")
 
         elif opcion == "0":
             break
