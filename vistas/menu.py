@@ -13,6 +13,9 @@ from consultas.calificaciones import buscar_calificacion
 from consultas.estudiantes import listar_estudiantes
 #from consultas.materias import listar_materias
 from consultas.calificaciones import listar_calificaciones
+from consultas.calificaciones import listar_calificaciones_por_curso
+from consultas.estudiantes import buscar_estudiante_por_id
+from consultas.materias import buscar_materia_por_id
 # ----------------------------------------------------------------
 
 # OPERACIONES PARA ALTA DE ESTUDIANTES, MATERIAS Y CALIFICACIONES
@@ -237,7 +240,7 @@ def alta_calificacion():
 
     print(f"\nMateria seleccionada: {materia_seleccionada[1]}")
 
-    if existe_calificacion(id_estudiante, id_materia): # Llama a a la función existe_calificacion para verificar si ya existe una calificación para el estudiante y materia seleccionados
+    if buscar_calificacion(id_estudiante, id_materia): # Llama a a la función existe_calificacion para verificar si ya existe una calificación para el estudiante y materia seleccionados
 
         print("\nYa existe una calificación para este estudiante y esta materia.")
         print("Utilice la opción de actualización para modificarla.")
@@ -447,6 +450,47 @@ def baja_calificacion():
         print(mensaje)
 # FIN BAJA PARA CALIFICACIONES
 
+# ----------------------------------------------------------------
+
+# Función para listar calificaciones por curso
+def calificaciones_por_curso():
+
+    curso = input("\nIngrese el curso para listar calificaciones: ").strip()
+
+    if not curso:
+        print("Debe ingresar un curso.")
+        return []
+
+    if not curso.isdigit():
+        print("El curso debe ser un número.")
+        return []
+
+    curso = int(curso)
+
+    calificaciones = listar_calificaciones_por_curso(curso)
+
+    if not calificaciones:
+        print(f"No se encontraron calificaciones para el curso {curso}.")
+        return []
+
+    print(f"\n--- CALIFICACIONES DEL CURSO {curso} ---")
+
+    for calificacion in calificaciones:
+        print(f"Nro de registro: {calificacion[0]}")
+        print(f"Nombre y apellido: {calificacion[1]}")
+        print(f"DNI: {calificacion[2]}")
+        print(f"Materia: {calificacion[3]}")
+        print(f"Nota primer trimestre: {calificacion[5]}")
+        print(f"Nota segundo trimestre: {calificacion[6]}")
+        print(f"Nota tercer trimestre: {calificacion[7]}")
+        print(f"Nota examen diciembre: {calificacion[8]}")
+        print(f"Nota examen marzo: {calificacion[9]}")
+        print(f"Nota final: {calificacion[10]}")
+        print(f"Observaciones: {calificacion[11]}")
+        print("----------------------------------------")
+
+# Fin de la función calificaciones_por_curso
+
 # MENU PRINCIPAL
 def menu_principal():
 
@@ -567,7 +611,8 @@ def menu_calificaciones():
         print("================================")
         print("1. Alta de calificación")
         print("2. Baja de calificación")
-        print("3. Listar calificaciones")
+        print("3. Calificaciones por curso")
+        print("9. Listar calificaciones")
         print("0. Volver")
         print("================================")
 
@@ -581,6 +626,9 @@ def menu_calificaciones():
             baja_calificacion()
         
         elif opcion == "3":
+            calificaciones_por_curso()
+        
+        elif opcion == "9":
             calificaciones = listar_calificaciones()
 
             if not calificaciones:

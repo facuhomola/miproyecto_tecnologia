@@ -86,3 +86,24 @@ def eliminar_materia(id_materia):
 
     finally:
         conexion.close()
+
+def buscar_materia_por_id(id_materia):
+    conexion = conectar()
+
+    try:
+        cursor = conexion.cursor()
+
+        consulta = """
+            SELECT id_materia, nombre_materia, curso, docente
+            FROM materias
+            WHERE id_materia = ?
+        """
+
+        cursor.execute(consulta, (id_materia,))
+
+        materia = cursor.fetchone()
+
+        return materia
+
+    finally:
+        conexion.close()

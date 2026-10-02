@@ -147,3 +147,24 @@ def eliminar_estudiante(id_estudiante):
 
     finally:
         conexion.close()
+
+def buscar_estudiante_por_id(id_estudiante):
+    conexion = conectar()
+
+    try:
+        cursor = conexion.cursor()
+
+        consulta = """
+            SELECT id_estudiante, nro, nombre_apellido, dni
+            FROM estudiantes
+            WHERE id_estudiante = ?
+        """
+
+        cursor.execute(consulta, (id_estudiante,))
+
+        estudiante = cursor.fetchone()
+
+        return estudiante
+
+    finally:
+        conexion.close()

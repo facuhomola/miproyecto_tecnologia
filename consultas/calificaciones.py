@@ -112,3 +112,44 @@ def eliminar_calificacion(id_calificacion):
 
     finally:
         conexion.close()
+
+
+def listar_calificaciones_por_curso(curso):
+
+    conexion = conectar()
+
+    try:
+
+        cursor = conexion.cursor()
+
+        consulta = """
+            SELECT
+                estudiantes.nro,
+                estudiantes.nombre_apellido,
+                estudiantes.dni,
+                materias.nombre_materia,
+                materias.curso,
+                calificaciones.nota_primer_trimestre,
+                calificaciones.nota_segundo_trimestre,
+                calificaciones.nota_tercer_trimestre,
+                calificaciones.nota_examen_diciembre,
+                calificaciones.nota_examen_marzo,
+                calificaciones.calificacion_final,
+                calificaciones.observaciones
+            FROM calificaciones
+            INNER JOIN estudiantes
+                ON calificaciones.id_estudiante = estudiantes.id_estudiante
+            INNER JOIN materias
+                ON calificaciones.id_materia = materias.id_materia
+            WHERE materias.curso = ?
+            ORDER BY materias.nombre_materia, estudiantes.nro
+        """
+
+        cursor.execute(consulta, (curso,))
+
+        registros_calificaciones = cursor.fetchall()
+
+        return registros_calificaciones
+
+    finally:
+        conexion.close()
