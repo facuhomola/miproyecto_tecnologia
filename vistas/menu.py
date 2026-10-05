@@ -455,10 +455,10 @@ def baja_calificacion():
 # Función para listar calificaciones por curso
 def calificaciones_por_curso():
 
-    curso = input("\nIngrese el curso para listar calificaciones: ").strip()
+    curso = input("\nIngrese el número de curso para listar calificaciones: ").strip()
 
     if not curso:
-        print("Debe ingresar un curso.")
+        print("Debe ingresar un número de curso.")
         return []
 
     if not curso.isdigit():
